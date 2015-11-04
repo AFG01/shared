@@ -1,5 +1,6 @@
 import string
 import numpy as np
+import re
 
 def count(string):
     
@@ -11,6 +12,26 @@ def count(string):
     sft = ''.join(e for e in cap_txt if e.isalpha())
     count = len(sft)
     return count, sft
+
+def word_count(string):
+    
+    """Remove symbols, digits, and punctuations except spaces from the
+    the text and count total number of words and split the text"""
+    punctuation = re.compile(r'[-.?!,"@:;()|0-9]')
+    #pfs=punctuation/ number free text
+    pfs = punctuation.sub("", string.lower())
+    word_list = str.split(pfs)
+    count = len(word_list)
+    return count, word_list
+
+def freq_word_letter(letter, word_list, count):
+    occur = 0
+    for i in word_list:
+        if i[0] == letter:
+            occur += 1
+    frequency = occur/count
+    return frequency
+ 
 
 def norm_freq(specific, total):
     """Calculates normalised frequency"""
@@ -54,17 +75,44 @@ def guess(letter, text_input):
             w = v
     return aux
 
-def guess_1():
-    pass
-
+def guess_1(letter, count, word_list):
+    """Makes a guess for first letter in each word"""
+    a = freq_word_letter(letter, word_list, count)
+    
+    w = create_data_base_1()['a']/100
+    
+    for c in string.ascii_lowercase:
+        v = create_data_base_1()[c]/100
+        if np.abs(v - a) <= np.abs(w - a):
+            aux = c
+            w = v
+    return aux
+    
 def translation(text_input):
+    """Makes a translation table and translates the text. Word by word, each first letter is guessed indepently with relative first letter frequency. The other letters in the world are guessed via independent frequency in the whole text"""
+    
+    count, word_list = word_count(text_input)
+    
+    new_1_alphabet = ''
+    for h in string.ascii_lowercase:
+        new_1_alphabet += guess_1(h, count, word_list)
+        
+    table_1 = str.maketrans(string.ascii_lowercase, new_1_alphabet)
+    
+    
     new_alphabet = ''
     for h in string.ascii_lowercase:
         new_alphabet += guess(h, text_input)
     
     table = str.maketrans(string.ascii_lowercase, new_alphabet)
-    text = text_input.lower().translate(table)
-    return text
+    
+    new_list = []
+    for word in word_list:
+        inw = word[0].translate(table_1)
+        endw = word[1:].translate(table)
+        new_list.append(inw+endw)
+    
+    return ' '.join(new_list)
     
     
     
