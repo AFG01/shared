@@ -88,7 +88,7 @@ def guess_1(letter, count, word_list):
             w = v
     return aux
     
-def translation(text_input):
+def translation_raw(text_input):
     """Makes a translation table and translates the text. Word by word, each first letter is guessed indepently with relative first letter frequency. The other letters in the world are guessed via independent frequency in the whole text"""
     
     count, word_list = word_count(text_input)
@@ -113,7 +113,24 @@ def translation(text_input):
         new_list.append(inw+endw)
     
     return ' '.join(new_list)
+      
     
+def translation_step(text_input, number):
+    
+    data_freq_ordered
+    text_freq_ordered
+    
+    alphabet = ''
+    new_alphabet = ''
+    for n in range(0, number):
+        alphabet = alphabet.join(data_freq_ordered[n])
+        new_alphabet = new_alphabet.join(text_freq_ordered[n])
+    
+    table = str.maketrans(alphabet, new_alphabet.upper)
+    
+    text = text_input.translate(table)
+                
+    return text
     
     
     
