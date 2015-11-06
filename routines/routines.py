@@ -114,9 +114,22 @@ def translation_raw(text_input):
     
     return ' '.join(new_list)
       
-    
+
+def frequency_each_letter(text):
+    new_freq = {'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0, 
+               'i': 0, 'j': 0, 'k': 0, 'l': 0, 'm': 0, 'n': 0, 'o': 0, 'p': 0, 
+               'q': 0, 'r': 0, 's': 0, 't': 0, 'u': 0, 'v': 0, 'w': 0, 
+               'x': 0, 'y': 0, 'z': 0}
+    for c in text:
+        for h in string.ascii_lowercase:
+            if c == h:
+                new_freq[c] +=1
+    return new_freq
+
 def translation_step(text_input, number):
     
+    create_data_base_c()
+    frequency_each_letter(text_input.lower())
     data_freq_ordered
     text_freq_ordered
     
@@ -126,7 +139,7 @@ def translation_step(text_input, number):
         alphabet = alphabet.join(data_freq_ordered[n])
         new_alphabet = new_alphabet.join(text_freq_ordered[n])
     
-    table = str.maketrans(alphabet, new_alphabet.upper)
+    table = str.maketrans(alphabet, new_alphabet.upper())
     
     text = text_input.translate(table)
                 
